@@ -1,0 +1,45 @@
+# Credenciales, secretos y configuraciones locales
+ACCESO_LOCAL.txt
+.env
+.env.*
+!.env.example
+!.env.mysql.example
+auth.json
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Dependencias y archivos generados
+**/vendor/
+**/node_modules/
+frontend/dist/
+.local/
+*.log
+*.pid
+.phpunit.result.cache
+**/.phpunit.cache/
+.DS_Store
+Thumbs.db
+
+# Bases de datos y archivos privados del entorno de ejecución
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.db
+*.sql
+backend/storage/**
+!backend/storage/**/
+!backend/storage/**/.gitignore
+backend/bootstrap/cache/*
+!backend/bootstrap/cache/.gitignore
+
+# Compilaciones anteriores sin referencia en prime.html
+backend/public/assets/index-Bvdtr6GG.js
+backend/public/assets/index-CiUnSKda.js
+backend/public/assets/index-DGLcRQYD.js
+backend/public/assets/index-WcvoYeuK.css
+
+# Entorno de edición
+.idea/
+.vscode/
