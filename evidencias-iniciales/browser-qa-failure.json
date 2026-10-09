@@ -1,0 +1,14 @@
+{
+  "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Hallazgos' })\u001b[22m\n",
+  "steps": [
+    "Pantalla inicial renderizada",
+    "Login y enrolamiento TOTP real mediante UI",
+    "Analista: audit HTTP 403",
+    "CSV: 25 casos sintéticos importados",
+    "Propuesta y adjunto de evidencia sintética guardados",
+    "Logout: acceso revocado HTTP 401",
+    "Segundo usuario administrador registra revisión administrativa",
+    "Auditoría visible"
+  ],
+  "errors": []
+}

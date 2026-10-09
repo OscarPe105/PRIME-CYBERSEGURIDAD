@@ -1,0 +1,32 @@
+{
+  "recorded_at": "2026-10-04T02:00:54.817426+00:00",
+  "environment": "Windows; Laravel 12; Angular 21; SQLite local; datos sintéticos",
+  "initial_browser": "Chrome headless / Playwright",
+  "initial_completed_steps": [
+    "Pantalla inicial renderizada",
+    "Login y enrolamiento TOTP real mediante UI",
+    "Analista: audit HTTP 403",
+    "CSV: 25 casos sintéticos importados",
+    "Propuesta y adjunto de evidencia sintética guardados",
+    "Logout: acceso revocado HTTP 401",
+    "Segundo usuario administrador registra revisión administrativa",
+    "Auditoría visible"
+  ],
+  "initial_failure": "Etiqueta accesible Hallazgos ausente en móvil. Corregida con aria-label en navegación.",
+  "recheck_browser": "Codex In-app Browser / cua_repl",
+  "rechecked_steps": [
+    "Login QA administrador con contraseña y TOTP ya enrolado",
+    "Actividad visible a 390 × 844",
+    "Retorno a Hallazgos mediante etiqueta accesible a 390 × 844",
+    "Captura móvil guardada",
+    "Viewport restaurado",
+    "Cierre de sesión y pantalla de acceso verificadas; campos QA limpiados"
+  ],
+  "mobile_observation": {
+    "viewport_requested": 390,
+    "document_scroll_width_observed": 375,
+    "logout_control_present": true,
+    "table": "Desplazamiento horizontal interno; no se verificaron todas las acciones móviles."
+  },
+  "limitation": "Se conservó el fallo inicial. La comprobación móvil es una continuación focalizada, no una repetición completa del flujo después del último build. Hubo timeout de espera de 3 s al cerrar sesión; la pantalla de acceso apareció en la observación posterior. No es una medición formal de rendimiento."
+}
