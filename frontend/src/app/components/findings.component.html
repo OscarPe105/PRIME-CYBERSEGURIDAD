@@ -1,0 +1,131 @@
+<div class="metrics">
+  <article>
+    <span>Hallazgos registrados</span><strong>{{ findings.length }}</strong
+    ><small>En este espacio de trabajo</small>
+  </article>
+  <article class="accent-urgent">
+    <span>Atención urgente KEV</span><strong class="orange">{{ urgent }}</strong
+    ><small>Explotación conocida del CVE</small>
+  </article>
+  <article class="accent-pending">
+    <span>CTI pendiente o incompleta</span><strong>{{ pending }}</strong
+    ><small>Decisiones provisionales</small>
+  </article>
+  <article class="accent-ok">
+    <span>Tratamientos revisados</span><strong class="green">{{ closed }}</strong
+    ><small>Cierres administrativos</small>
+  </article>
+</div>
+<div class="experiment">
+  <b>PRIME 1.0</b
+  ><span
+    >Nuevas evaluaciones: 60 % CVSS declarado + 40 % DREAD ponderado. EPSS es información
+    complementaria y KEV establece atención urgente. Los pesos requieren evaluación
+    independiente.</span
+  >
+</div>
+<section class="table-card">
+  <div class="table-toolbar">
+    <h2>
+      Cola de tratamiento <span>{{ filtered.length }}</span>
+    </h2>
+    <div class="filters">
+      <input
+        aria-label="Buscar hallazgo"
+        placeholder="Buscar ID, CVE o activo…"
+        [ngModel]="filters.query"
+        (ngModelChange)="updateFilters({ query: $event })"
+      /><select
+        aria-label="Filtrar zona"
+        [ngModel]="filters.zone"
+        (ngModelChange)="updateFilters({ zone: $event })"
+      >
+        <option value="">Todas las zonas</option>
+        @for (z of zones; track z) {
+          <option [value]="z">{{ z }}</option>
+        }</select
+      ><select
+        aria-label="Filtrar estado"
+        [ngModel]="filters.status"
+        (ngModelChange)="updateFilters({ status: $event })"
+      >
+        <option value="">Todos los estados</option>
+        <option value="abierto">Abierto</option>
+        <option value="propuesto">Propuesto</option>
+        <option value="mitigado">Mitigado</option>
+      </select>
+    </div>
+  </div>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Hallazgo / CVE</th>
+          <th>Activo y zona</th>
+          <th>CVSS</th>
+          <th>IRC</th>
+          <th>Prioridad</th>
+          <th>Estado</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (f of filtered; track f.id) {
+          <tr>
+            <td>
+              <b>{{ f.reference }}</b
+              ><small>{{ f.cve || 'Configuración · sin CVE' }}</small>
+            </td>
+            <td>
+              {{ f.asset }}<small>{{ f.zone }}</small>
+            </td>
+            <td>{{ f.input.cvss }}</td>
+            <td>
+              <b>{{ f.calculation.display_score }}</b>
+              <small>{{ f.calculation.version }}</small>
+              @if (f.calculation.provisional) {
+                <small class="orange">Provisional</small>
+              }
+            </td>
+            <td>
+              <span
+                class="pill"
+                [class.critical]="f.calculation.kev_urgent || f.calculation.severity === 'Crítico'"
+                [class.high]="f.calculation.severity === 'Alto'"
+                >{{ f.calculation.priority }}</span
+              >
+            </td>
+            <td>
+              <span class="status" [attr.data-status]="f.status">{{ f.status }}</span>
+            </td>
+            <td>
+              <button class="detail-button" (click)="findingSelected.emit(f)" [disabled]="busy">
+                Ver detalle
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7">
+              <div class="empty">
+                <div class="empty-mark" aria-hidden="true">▤</div>
+                <h3>{{ findings.length ? 'Sin coincidencias' : 'Comienza con tus hallazgos' }}</h3>
+                <p>
+                  {{
+                    findings.length
+                      ? 'Cambia la búsqueda o los filtros.'
+                      : 'Descarga el CSV de demostración e impórtalo para explorar el flujo. Los datos son sintéticos y no constituyen resultados de investigación.'
+                  }}
+                </p>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <footer class="table-footer">
+    Política para nuevas evaluaciones: {{ policy }}. Cada resultado conserva su versión histórica.
+    Orden: atención KEV, IRC e ID estable. La pertenencia a KEV no demuestra compromiso del activo.
+  </footer>
+</section>

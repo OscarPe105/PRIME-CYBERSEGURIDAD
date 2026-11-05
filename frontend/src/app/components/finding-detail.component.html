@@ -1,0 +1,154 @@
+<div class="drawer-shade" (click)="closed.emit()"></div>
+<aside class="drawer">
+  <div class="drawer-heading">
+    <div>
+      <span class="eyebrow">DETALLE DEL HALLAZGO</span>
+      <h2>{{ finding.reference }}</h2>
+    </div>
+    <button aria-label="Cerrar detalle" class="close" (click)="closed.emit()">×</button>
+  </div>
+  <p class="muted">{{ finding.cve || 'Sin CVE asociado' }} · {{ finding.asset }}</p>
+  <div class="detail-score">
+    <strong>{{ finding.calculation.display_score }}</strong>
+    <div>
+      {{ finding.calculation.priority
+      }}<small>{{
+        finding.calculation.provisional
+          ? 'CTI incompleta · decisión provisional'
+          : 'Datos CTI registrados o no aplicables'
+      }}</small>
+    </div>
+  </div>
+  <h3>Contexto y fundamento</h3>
+  <p class="muted">
+    Evaluación: {{ finding.calculation.version }}.
+    @if (finding.calculation.version === 'PRIME-1.0') {
+      IRC = 0.60 × CVSS + 0.40 × DREAD ponderado. EPSS no modifica el IRC.
+    } @else {
+      Resultado histórico conservado con su política original.
+      @if (finding.calculation.epss_applied) {
+        Esta evaluación utilizó EPSS en el cálculo.
+      }
+    }
+  </p>
+  <dl>
+    <dt>Producto</dt>
+    <dd>{{ finding.product }} {{ finding.product_version }}</dd>
+    <dt>Zona</dt>
+    <dd>{{ finding.zone }}</dd>
+    <dt>CVSS declarado</dt>
+    <dd>{{ finding.input.cvss }} · v{{ finding.input.cvss_version }}</dd>
+    <dt>DREAD ponderado</dt>
+    <dd>{{ finding.calculation.dread.toFixed(3) }}</dd>
+    <dt>Base combinada</dt>
+    <dd>{{ finding.calculation.base.toFixed(3) }}</dd>
+  </dl>
+  <p class="context-text">{{ finding.input.justification }}</p>
+  <details>
+    <summary>Vector y dimensiones</summary>
+    <code class="vector">{{ finding.input.cvss_vector }}</code>
+    <p>
+      D: {{ finding.input.damage }} · E: {{ finding.input.exploitability }} · R:
+      {{ finding.input.reproducibility }} · A: {{ finding.input.affected_users }} · Ds:
+      {{ finding.input.discoverability }}
+    </p>
+  </details>
+  <h3>Inteligencia de amenazas</h3>
+  <dl>
+    <dt>EPSS</dt>
+    <dd>
+      {{ ctiStatus(finding.cti.epss.status)
+      }}{{
+        finding.cti.epss.value !== null && finding.cti.epss.value !== undefined
+          ? ' · ' + finding.cti.epss.value
+          : ''
+      }}
+    </dd>
+    <dt>Percentil</dt>
+    <dd>{{ finding.cti.epss.percentile ?? 'No disponible' }}</dd>
+    <dt>Fecha EPSS</dt>
+    <dd>{{ finding.cti.epss.data_date || 'No disponible' }}</dd>
+    <dt>KEV</dt>
+    <dd>
+      {{ ctiStatus(finding.cti.kev.status)
+      }}{{
+        finding.cti.kev.value === true
+          ? ' · Presente'
+          : finding.cti.kev.value === false
+            ? ' · Ausente'
+            : ''
+      }}
+    </dd>
+    <dt>Consulta</dt>
+    <dd>{{ date(finding.cti.queried_at) }}</dd>
+  </dl>
+  @if (canWrite && finding.cve) {
+    <button class="secondary" (click)="ctiRequested.emit()" [disabled]="busy">
+      Consultar CTI y crear revisión
+    </button>
+  }
+  <h3>Tratamiento</h3>
+  <p class="muted">
+    Estado: {{ finding.status }}. Un cierre registrado requiere revisión humana de la evidencia; no
+    cambia automáticamente el riesgo residual.
+  </p>
+  @if (canWrite && finding.status === 'abierto') {
+    <label
+      >Propuesta<textarea
+        rows="3"
+        [(ngModel)]="treatment"
+        placeholder="Control, alcance, compatibilidad y prueba de verificación…"
+      ></textarea></label
+    ><button
+      class="primary"
+      (click)="treatmentProposed.emit(treatment)"
+      [disabled]="busy || !treatment"
+    >
+      Registrar propuesta
+    </button>
+  } @else {
+    <p>{{ finding.treatment || 'Sin propuesta' }}</p>
+  }
+  <h3>Evidencias</h3>
+  @if (canWrite) {
+    <label class="button secondary upload"
+      >Adjuntar TXT, JSON, PNG o PDF<input
+        type="file"
+        accept=".txt,.json,.png,.pdf"
+        (change)="evidenceAttached.emit($event)"
+        [disabled]="busy"
+    /></label>
+  }
+  @for (e of history?.evidence || []; track e.id) {
+    <div class="evidence-item">
+      <a [href]="'/api/evidence/' + e.id">{{ e.name }}</a
+      ><small>SHA256 {{ e.sha256 }}</small>
+    </div>
+  }
+  @if (user.role === 'administrador' && finding.status === 'propuesto') {
+    <label
+      >Resultado de revisión<textarea
+        rows="3"
+        [(ngModel)]="reviewNote"
+        placeholder="Describa qué evidencia verificó y sus límites…"
+      ></textarea></label
+    ><button
+      class="primary"
+      (click)="reviewSubmitted.emit(reviewNote)"
+      [disabled]="busy || reviewNote.length < 10"
+    >
+      Registrar cierre revisado
+    </button>
+  }
+  <h3>Historial inalterado</h3>
+  @for (r of history?.revisions || []; track r.id) {
+    <div class="revision">
+      <b>Revisión {{ r.id }} · {{ r.calculation.display_score }}</b
+      ><small>{{ date(r.created_at) }} · {{ r.policy_version }}</small
+      ><small
+        >EPSS {{ ctiStatus(r.snapshot.epss.status) }} · KEV
+        {{ ctiStatus(r.snapshot.kev.status) }}</small
+      >
+    </div>
+  }
+</aside>

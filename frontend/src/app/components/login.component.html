@@ -1,0 +1,76 @@
+<div class="login-layout">
+  <section class="login-story">
+    <div class="brand">
+      <img class="brand-mark" src="/prime-logo.svg" width="44" height="44" alt="" /> PRIME
+    </div>
+    <span class="eyebrow">GESTIÓN DE VULNERABILIDADES</span>
+    <h1>Convierte hallazgos<br />en decisiones.</h1>
+    <p>Prioriza con contexto, conserva la trazabilidad y documenta cada tratamiento.</p>
+    <div class="story-bottom">PROTOTIPO ACADÉMICO · APEX ES UN ESCENARIO FICTICIO</div>
+  </section>
+  <main class="login-main">
+    <div class="login-card">
+      <div class="brand login-mobile-brand">
+        <img class="brand-mark" src="/prime-logo.svg" width="44" height="44" alt="" /> PRIME
+      </div>
+      <span class="eyebrow">ACCESO AL ESPACIO DE TRABAJO</span>
+      <h2>{{ mfa ? 'Verifica tu identidad' : 'Bienvenido a PRIME' }}</h2>
+      <p class="muted">
+        {{
+          mfa
+            ? 'Introduce el código de tu aplicación autenticadora o un código de recuperación.'
+            : 'Ingresa con la cuenta local asignada a tu rol.'
+        }}
+      </p>
+      @if (error) {
+        <p class="alert error" role="alert">{{ error }}</p>
+      }
+      @if (!mfa) {
+        <form (ngSubmit)="submitLogin()">
+          <label
+            >Correo<input
+              type="email"
+              name="email"
+              [(ngModel)]="email"
+              required
+              autocomplete="username" /></label
+          ><label
+            >Contraseña<input
+              type="password"
+              name="password"
+              [(ngModel)]="password"
+              required
+              autocomplete="current-password" /></label
+          ><button class="primary full" [disabled]="busy">
+            {{ busy ? 'Ingresando…' : 'Continuar' }}
+          </button>
+        </form>
+      } @else {
+        @if (mfa.enrollment) {
+          <div class="enrollment">
+            <strong>Configura tu segundo factor</strong>
+            <p>
+              Añade una cuenta TOTP de 6 dígitos y 30 segundos en tu autenticador. Copia esta clave;
+              se mostrará hasta confirmar el enrolamiento.
+            </p>
+            <code>{{ mfa.secret }}</code>
+          </div>
+        }
+        <form (ngSubmit)="submitCode()">
+          <label
+            >Código TOTP o de recuperación<input
+              name="code"
+              [(ngModel)]="code"
+              required
+              autocomplete="one-time-code" /></label
+          ><button class="primary full" [disabled]="busy">
+            {{ busy ? 'Validando…' : 'Verificar y entrar' }}
+          </button>
+        </form>
+      }
+      <p class="login-foot">
+        Primera versión experimental. Los resultados académicos requieren validación independiente.
+      </p>
+    </div>
+  </main>
+</div>

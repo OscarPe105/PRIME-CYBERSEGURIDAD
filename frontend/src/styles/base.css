@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+:root {
+  font-family: 'DM Sans', Arial, sans-serif;
+  color: #263a36;
+  background: #eef3f0;
+  font-synthesis: none;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button,
+a,
+label.upload {
+  touch-action: manipulation;
+}
+button,
+.button {
+  border: 0;
+  border-radius: 8px;
+  padding: 11px 15px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+}
+button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+input,
+select,
+textarea {
+  border: 1px solid #d8e1dd;
+  background: white;
+  border-radius: 8px;
+  padding: 11px;
+  color: #273d37;
+  min-width: 0;
+}
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid #1b776247;
+  outline-offset: 1px;
+}
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 17px;
+}
+label input,
+label textarea {
+  display: block;
+  width: 100%;
+  margin-top: 7px;
+}
+.primary {
+  background: #176c55;
+  color: white;
+}
+.primary:hover {
+  background: #145c49;
+}
+.secondary {
+  background: white;
+  border: 1px solid #d8e1dd;
+  color: #325449;
+}
+.ghost {
+  background: transparent;
+  color: #3d5c4e;
+}
+.full {
+  width: 100%;
+}
+.muted {
+  color: #78877f;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.7px;
+  color: #71867b;
+  text-transform: uppercase;
+}
+h1,
+h2,
+h3 {
+  font-family: 'Manrope', Arial, sans-serif;
+}
+h1 {
+  font-size: 30px;
+  letter-spacing: -1px;
+  margin: 8px 0 7px;
+}
+h2 {
+  font-size: 21px;
+  margin: 8px 0 12px;
+}
+h3 {
+  font-size: 14px;
+  margin: 25px 0 13px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font:
+    800 20px/1.1 'Manrope',
+    sans-serif;
+  letter-spacing: 1.6px;
+}
+.brand small {
+  display: block;
+  font:
+    600 9px/1.2 'DM Sans',
+    sans-serif;
+  letter-spacing: 0.8px;
+  color: #9cb8aa;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+.brand-mark {
+  display: block;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}

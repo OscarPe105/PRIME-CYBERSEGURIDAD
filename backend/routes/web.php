@@ -1,25 +1,36 @@
 <?php
 
+use App\Http\Controllers\AuditController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EvidenceController;
+use App\Http\Controllers\FindingController;
+use App\Http\Controllers\ImportController;
+use App\Http\Controllers\TreatmentController;
+use App\Http\Middleware\RequireVerifiedRole;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PrimeController;
 
-Route::get('/', function () {
-    return response()->file(public_path('prime.html'));
-});
+Route::get('/', fn () => response()->file(public_path('prime.html')));
 
-Route::prefix('api')->group(function() {
- Route::get('session',[PrimeController::class,'session']);
- Route::post('auth/login',[PrimeController::class,'login'])->middleware('throttle:10,1');
- Route::post('auth/mfa',[PrimeController::class,'verify'])->middleware('throttle:5,1');
- Route::post('auth/logout',[PrimeController::class,'logout']);
- Route::get('findings',[PrimeController::class,'index']);
- Route::post('imports',[PrimeController::class,'upload']);
- Route::post('findings/{id}/cti',[PrimeController::class,'enrich'])->middleware('throttle:20,1');
- Route::get('findings/{id}/history',[PrimeController::class,'history']);
- Route::post('findings/{id}/propose',[PrimeController::class,'propose']);
- Route::post('findings/{id}/evidence',[PrimeController::class,'evidence']);
- Route::post('findings/{id}/review',[PrimeController::class,'review']);
- Route::get('evidence/{id}',[PrimeController::class,'download']);
- Route::get('audit',[PrimeController::class,'auditLog']);
- Route::get('export',[PrimeController::class,'export']);
+Route::prefix('api')->group(function () {
+    Route::get('session', [AuthController::class, 'session']);
+    Route::post('auth/login', [AuthController::class, 'login'])->middleware('throttle:10,1');
+    Route::post('auth/mfa', [AuthController::class, 'verify'])->middleware('throttle:5,1');
+
+    Route::middleware(RequireVerifiedRole::class)->group(function () {
+        Route::post('auth/logout', [AuthController::class, 'logout']);
+        Route::get('findings', [FindingController::class, 'index']);
+        Route::get('findings/{id}/history', [FindingController::class, 'history']);
+        Route::get('evidence/{id}', [EvidenceController::class, 'download']);
+        Route::get('export', [FindingController::class, 'export']);
+    });
+
+    Route::middleware(RequireVerifiedRole::class.':analista,administrador')->group(function () {
+        Route::post('imports', [ImportController::class, 'upload']);
+        Route::post('findings/{id}/cti', [FindingController::class, 'enrich'])->middleware('throttle:20,1');
+        Route::post('findings/{id}/propose', [TreatmentController::class, 'propose']);
+        Route::post('findings/{id}/evidence', [EvidenceController::class, 'evidence']);
+    });
+
+    Route::post('findings/{id}/review', [TreatmentController::class, 'review'])->middleware(RequireVerifiedRole::class.':administrador');
+    Route::get('audit', [AuditController::class, 'auditLog'])->middleware(RequireVerifiedRole::class.':administrador,auditor');
 });

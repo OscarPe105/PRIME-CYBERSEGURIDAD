@@ -1,0 +1,29 @@
+<section class="recovery" role="region" aria-labelledby="recovery-title">
+  <div class="recovery-head">
+    <span class="recovery-icon" aria-hidden="true">!</span>
+    <div>
+      <h3 id="recovery-title">Guarda tus códigos de recuperación</h3>
+      <p>
+        Cada código sirve una sola vez. Guárdalos en un lugar privado antes de cerrar este aviso.
+        Sin ellos no podrás recuperar el acceso si pierdes el autenticador.
+      </p>
+    </div>
+  </div>
+  @if (notice) {
+    <p class="alert notice" role="status">{{ notice }}</p>
+  }
+  <ol class="code-grid">
+    @for (c of recovery; track c; let i = $index) {
+      <li>
+        <span>{{ i + 1 }}</span
+        ><code>{{ c }}</code>
+      </li>
+    }
+  </ol>
+  <div class="recovery-actions">
+    <button class="primary" type="button" (click)="copyRecovery()">
+      {{ copied ? 'Códigos copiados' : 'Copiar todos' }}</button
+    ><button class="secondary" type="button" (click)="downloadRecovery()">Descargar .txt</button
+    ><button class="ghost" type="button" (click)="dismissed.emit()">Ya los guardé</button>
+  </div>
+</section>

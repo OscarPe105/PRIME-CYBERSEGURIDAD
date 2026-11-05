@@ -1,0 +1,82 @@
+.login-layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 45% 55%;
+}
+.login-story {
+  background: #173e32;
+  color: #eff7f2;
+  padding: 55px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.login-story .brand {
+  position: absolute;
+  top: 45px;
+}
+.login-story .eyebrow {
+  color: #a5c1b3;
+}
+.login-story h1 {
+  font-size: 43px;
+  line-height: 1.25;
+  letter-spacing: -1.6px;
+  margin: 20px 0;
+}
+.login-story p {
+  max-width: 380px;
+  line-height: 1.8;
+  color: #b5cdc1;
+}
+.story-bottom {
+  position: absolute;
+  bottom: 40px;
+  font-size: 9px;
+  letter-spacing: 1.4px;
+  color: #a8c2b6;
+}
+.login-main {
+  display: grid;
+  place-items: center;
+  padding: 40px;
+}
+.login-card {
+  max-width: 390px;
+  width: 100%;
+}
+.login-card h2 {
+  font-size: 29px;
+  letter-spacing: -1px;
+}
+.login-card form {
+  margin-top: 30px;
+}
+.login-foot {
+  font-size: 11px;
+  color: #8a9790;
+  line-height: 1.7;
+  margin-top: 28px;
+}
+.enrollment {
+  background: #eaf1ed;
+  padding: 18px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+.enrollment p {
+  font-size: 12px;
+  line-height: 1.6;
+}
+.enrollment code {
+  word-break: break-all;
+  font-size: 15px;
+}
+
+.login-mobile-brand {
+  display: none;
+  color: #176c55;
+  margin-bottom: 32px;
+}

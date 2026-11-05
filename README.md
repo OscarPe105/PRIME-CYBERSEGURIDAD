@@ -1,4 +1,4 @@
-# PRIME prototipo funcional 0.1
+# PRIME: MVP con política de triaje 1.0
 
 Primera implementación realizada a partir de la revisión del proyecto teórico. Defensa prevista para el 1 de diciembre de 2026. La política de triaje es **experimental**, y los 25 casos de demostración son sintéticos. No se presentan como hallazgos de pentesting ni como validación de riesgo.
 
@@ -23,7 +23,8 @@ Motor con CVSS explícito, cinco dimensiones DREAD y política fija versionada. 
 ## Límites actuales
 
 - Persistencia ejecutada con **SQLite local**. Hay configuración y migraciones para MySQL, pero MySQL todavía no se ha ejecutado ni validado.
-- Fórmula `Base = 0.60 CVSS + 0.40 DREAD_w`; con EPSS válido, `IRC = min(10, Base × (1 + EPSS))`. KEV crea banda urgente sin reemplazar puntaje. No es una fórmula oficial ni validada científicamente.
+- Política `PRIME-1.0`: `IRC = 0.60 CVSS + 0.40 DREAD_w`. EPSS se conserva como señal complementaria y no multiplica el IRC. KEV crea banda urgente sin reemplazar el puntaje. Los pesos son una configuración académica, no una fórmula oficial ni validada científicamente.
+- Las revisiones anteriores `PRIME-experimental-0.1` conservan sus resultados y snapshots. El cambio no migra ni recalcula la base de trabajo automáticamente. La interfaz y la exportación identifican la versión de cada resultado; una nueva importación o consulta CTI genera una evaluación con la política vigente sin sobrescribir el historial.
 - El parser admite vectores CVSS v4.0 Base en orden canónico; verifica estructura y rango, pero no recalcula el puntaje desde el vector. Debe añadirse un calculador verificado antes de validar E01/E02.
 - El dataset de ejemplo usa productos y activos simulados, CVE públicos como identificadores de ensayo y un vector/puntaje declarado de ejemplo. Requiere sustitución y revisión de aplicabilidad para investigación. Los valores CTI no se inventan ni se precargan con cifras del PDF.
 - No hay pantalla de usuarios/pesos, proceso asíncrono, conector a escáneres, generación de informe PDF, riesgo residual calculado, SIEM, IPS, LAPS, backup probado ni laboratorio Windows implementado.
@@ -76,3 +77,7 @@ El paquete `evidencias-iniciales` contiene el reporte real de PHPUnit y registro
 ## Próximo avance hasta la defensa
 
 Completar las 35 evidencias según el plan adjunto. Primero validar vector/puntaje, rúbrica, política y dataset; luego ampliar pruebas MFA/CSV/RBAC, ejecutar MySQL, CTI real, seguridad y backups. En paralelo preparar AD/firewall/legacy y evaluadores. Congelar la versión probada antes del ensayo final del 23 al 29 de noviembre.
+
+## Organización y mantenimiento
+
+Consulta [la arquitectura y las comprobaciones de desarrollo](docs/ARQUITECTURA.md) para localizar controladores, servicios, componentes Angular, pruebas y comandos de formato. Desde `frontend`, `pnpm build:backend` comprueba TypeScript, compila y actualiza la interfaz que sirve Laravel.

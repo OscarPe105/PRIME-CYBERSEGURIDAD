@@ -79,22 +79,20 @@ Para categorías ordinales, se podrá calcular kappa ponderado con los pesos def
 
 Si se compara tiempo manual contra asistido, las tareas deben ser equivalentes: lectura, contextualización, DREAD, CTI, decisión y verificación. El tiempo de ejecutar una función aritmética no es equivalente al tiempo total humano. Los cambios porcentuales solo se calcularán sobre mediciones reales con condiciones registradas.
 
-## Política experimental del algoritmo PRIME
+## Política académica PRIME 1.0
 
-**Esta es una propuesta de ingeniería para probar; los pesos no han sido validados y no pertenecen a una fórmula oficial de FIRST o CISA.** El prototipo inicial utiliza esta versión experimental para hacer concreta la evaluación. No debe denominarse «algoritmo definitivo» hasta revisar E02 y sus resultados.
+**Los pesos son una configuración del estudio y no pertenecen a una fórmula oficial de FIRST o CISA.** PRIME 1.0 corresponde al informe revisado: EPSS y KEV complementan la decisión sin multiplicar el IRC. La conformidad del código no sustituye la validación independiente de los pesos ni de las entradas.
 
 Sea `C` el puntaje CVSS-B v4.0 declarado y sustentado por un vector; sean D, E, R, A y Ds valoraciones contextuales de 0 a 10. Adoptar 0–10 es un cambio explícito respecto del 1–10 del documento original y permite representar ausencia del atributo; no se mezclarán ambas escalas en un dataset.
 
 ```
 DREAD_w = 0.30D + 0.25E + 0.20R + 0.15A + 0.10Ds
-Base = 0.60C + 0.40DREAD_w
-IRC = min(10, Base × (1 + p))  si existe EPSS válido
-IRC = Base                   si EPSS no aplica o está incompleto
+IRC = 0.60C + 0.40DREAD_w
 ```
 
-Si el CVE está en un snapshot KEV válido y es aplicable al producto, la banda será «Urgente KEV». Se preservará el puntaje contextual para ordenar dentro de esa banda; no se reemplazará automáticamente por 10. Después se ordenará por IRC descendente e identificador estable. Esta regla evita que la presencia de 17 casos KEV vuelva idénticas todas sus prioridades numéricas. La amplificación EPSS y el tope siguen siendo heurísticos y pueden producir saturación, que deberá medirse.
+Si el CVE está en un snapshot KEV válido y es aplicable al producto, la banda será «Urgente KEV». Se preservará el puntaje contextual para ordenar dentro de esa banda; no se reemplazará automáticamente por 10. Después se ordenará por IRC descendente e identificador estable. Las revisiones `PRIME-experimental-0.1` que usaban amplificación EPSS se conservan con su política original y no se presentan como evaluaciones PRIME 1.0.
 
-`p` representa la probabilidad EPSS de explotación del CVE en los próximos 30 días, no de compromiso de un activo concreto. El percentil se guarda como dato descriptivo y no entra a la fórmula. Un dato faltante o un error no se registra como cero: se conserva un estado y se muestra decisión provisional. En un hallazgo sin CVE, EPSS y KEV serán no aplicables y se usará Base. Un KEV desconocido no se trata como ausencia comprobada. [FIRST, EPSS](https://www.first.org/epss/).
+EPSS representa la probabilidad de explotación del CVE en los próximos 30 días, no de compromiso de un activo concreto. EPSS y su percentil se guardan como información complementaria y no entran a la fórmula. Un dato faltante o un error no se registra como cero: se conserva un estado y se muestra decisión provisional. En un hallazgo sin CVE, EPSS y KEV serán no aplicables. Un KEV desconocido no se trata como ausencia comprobada. [FIRST, EPSS](https://www.first.org/epss/).
 
 Los coeficientes 0.60/0.40 se proponen para impedir que CVSS sea una columna sin efecto. Su aceptación científica requiere sensibilidad y comparación, no solo pruebas de código. Como alternativa a evaluar se puede usar una matriz de decisión por bandas que conserve CVSS, contexto y KEV por separado. No se elegirá la alternativa según cuál confirme mejor las conclusiones ya escritas.
 

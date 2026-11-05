@@ -1,0 +1,77 @@
+.recovery {
+  padding: 20px 22px;
+  border: 1px solid #c9dfd0;
+  background: linear-gradient(180deg, #f6fbf7, #ecf6ef);
+  border-radius: 14px;
+  margin: 16px 0 8px;
+  box-shadow: 0 8px 20px #176c5510;
+}
+.recovery-head {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+.recovery-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: #176c55;
+  color: white;
+  font-weight: 800;
+}
+.recovery h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+.recovery p {
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+  color: #4f6a5c;
+  max-width: 62ch;
+}
+.code-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+.code-grid li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  border: 1px solid #d7e6dc;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+}
+.code-grid li span {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #e7f2eb;
+  color: #2c6a52;
+  display: grid;
+  place-items: center;
+  font:
+    700 10px 'DM Sans',
+    sans-serif;
+  flex-shrink: 0;
+}
+.code-grid code {
+  font: inherit;
+  word-break: break-all;
+}
+.recovery-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}

@@ -1,0 +1,24 @@
+<section class="table-card">
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>FECHA</th>
+          <th>EVENTO</th>
+          <th>USUARIO</th>
+          <th>DETALLE</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (e of events; track e.id) {
+          <tr>
+            <td>{{ date(e.created_at) }}</td>
+            <td>{{ e.event }}</td>
+            <td>{{ e.user_id || 'Sin sesión' }}</td>
+            <td>{{ e.details }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
