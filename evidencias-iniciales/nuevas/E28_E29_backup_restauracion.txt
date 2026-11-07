@@ -1,0 +1,15 @@
+Fecha: 2026-11-07T20:35:14Z
+Origen: backend/database/database.sqlite
+E28 backup generado con sqlite3 .backup (copia consistente en caliente)
+SHA256 backup: 175e9a8b45b1cb76646bea1af9cba7b87e83926c756f5b726127f635011d25e5
+integrity_check backup: ok
+E29 restauración en archivo independiente
+tabla users: origen=2 restaurada=2 OK
+tabla findings: origen=0 restaurada=0 OK
+tabla triage_revisions: origen=0 restaurada=0 OK
+tabla import_batches: origen=0 restaurada=0 OK
+Laravel lee la copia restaurada: users=2 findings=0
+
+Nota: el .sqlite contiene hashes de contraseñas y datos de trabajo; no se guarda en el repositorio.
+tabla audit_events: origen=5 restaurada=5
+LIMITACION: la base actual no tiene hallazgos importados (findings=0), por lo que esta prueba demuestra el procedimiento, no la restauración de los 25 casos. Repetir tras importar H01-H25.
