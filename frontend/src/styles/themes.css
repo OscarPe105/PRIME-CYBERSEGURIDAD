@@ -1,0 +1,108 @@
+/* Paletas de la interfaz. El valor por defecto es "bosque" (la paleta original de PRIME).
+   Para añadir una paleta: copia un bloque [data-theme='...'] y registra su id en src/app/utils/theme.ts. */
+:root,
+:root[data-theme='bosque'] {
+  --brand: #176c55;
+  --brand-hover: #145c49;
+  --brand-accent: #2a8a68;
+  --brand-dark: #173e32;
+  --brand-dark-1: #15362c;
+  --brand-dark-2: #1a4437;
+  --brand-dark-3: #2f5d4c;
+  --bg: #eef3f0;
+  --text: #263a36;
+  --border: #d8e1dd;
+  --brand-tint: color-mix(in srgb, var(--brand) 9%, white);
+  --brand-tint-2: color-mix(in srgb, var(--brand) 5%, white);
+  --text-soft: color-mix(in srgb, var(--text) 78%, white);
+  --on-dark: #d7e8df;
+  --on-dark-2: #b8cec2;
+  --on-dark-3: #a9c4b6;
+  --on-dark-4: #89aa97;
+  --on-dark-accent: #81c9a8;
+  --muted-text: color-mix(in srgb, var(--text) 62%, white);
+  --logo-tile: #ddf3e7;
+  --logo-shield: var(--brand);
+  --logo-letter: #f5fff9;
+  --logo-accent: #8ed6af;
+}
+
+:root[data-theme='oceano'] {
+  --brand: #1d5fa8;
+  --brand-hover: #174d88;
+  --brand-accent: #3b82c4;
+  --brand-dark: #11304f;
+  --brand-dark-1: #0e2842;
+  --brand-dark-2: #163a5e;
+  --brand-dark-3: #2b5580;
+  --bg: #eef2f7;
+  --text: #1f2f45;
+  --border: #d6dfea;
+  --on-dark: #dbe8f5;
+  --on-dark-2: #b9cde3;
+  --on-dark-3: #a8bfd8;
+  --on-dark-4: #8aa4c0;
+  --on-dark-accent: #7db7ea;
+  --logo-tile: color-mix(in srgb, var(--brand) 16%, white);
+  --logo-accent: color-mix(in srgb, var(--brand-accent) 55%, white);
+}
+
+:root[data-theme='violeta'] {
+  --brand: #6d3fb5;
+  --brand-hover: #5a3396;
+  --brand-accent: #8b5fd0;
+  --brand-dark: #2b1b4a;
+  --brand-dark-1: #241640;
+  --brand-dark-2: #34225a;
+  --brand-dark-3: #4c3578;
+  --bg: #f1eef7;
+  --text: #2a2140;
+  --border: #ddd6ea;
+  --on-dark: #e6dff5;
+  --on-dark-2: #cdc2e3;
+  --on-dark-3: #bfb2d8;
+  --on-dark-4: #9f90bd;
+  --on-dark-accent: #b99af0;
+  --logo-tile: color-mix(in srgb, var(--brand) 16%, white);
+  --logo-accent: color-mix(in srgb, var(--brand-accent) 55%, white);
+}
+
+:root[data-theme='grafito'] {
+  --brand: #374151;
+  --brand-hover: #2b3340;
+  --brand-accent: #6b7280;
+  --brand-dark: #1f2937;
+  --brand-dark-1: #18212d;
+  --brand-dark-2: #27323f;
+  --brand-dark-3: #3f4a59;
+  --bg: #f1f3f5;
+  --text: #1f2937;
+  --border: #dadee3;
+  --on-dark: #e5e7eb;
+  --on-dark-2: #c8ccd3;
+  --on-dark-3: #b4b9c2;
+  --on-dark-4: #959ba6;
+  --on-dark-accent: #9ca3af;
+  --logo-tile: color-mix(in srgb, var(--brand) 16%, white);
+  --logo-accent: color-mix(in srgb, var(--brand-accent) 55%, white);
+}
+
+:root[data-theme='ambar'] {
+  --brand: #b45309;
+  --brand-hover: #92400e;
+  --brand-accent: #d97706;
+  --brand-dark: #3b2410;
+  --brand-dark-1: #31200e;
+  --brand-dark-2: #46301a;
+  --brand-dark-3: #6a4a2a;
+  --bg: #f7f3ee;
+  --text: #3a2c1f;
+  --border: #e6dccf;
+  --on-dark: #f3e6d6;
+  --on-dark-2: #dcc9b2;
+  --on-dark-3: #cdb89f;
+  --on-dark-4: #a89279;
+  --on-dark-accent: #f0b35a;
+  --logo-tile: color-mix(in srgb, var(--brand) 16%, white);
+  --logo-accent: color-mix(in srgb, var(--brand-accent) 55%, white);
+}

@@ -1,20 +1,41 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { PaginationComponent } from '../ui/pagination.component';
+import { pageStart, paginate } from '../utils/paginate';
+import { HlmButton } from '../ui/button';
 import type { Finding, FindingFilters } from '../models/prime';
-import template from './findings.component.html?raw';
 
-@Component({ selector: 'prime-findings', standalone: true, imports: [FormsModule], template })
+@Component({
+  selector: 'prime-findings',
+  standalone: true,
+  imports: [FormsModule, HlmButton, PaginationComponent],
+  templateUrl: './findings.component.html',
+})
 export class FindingsComponent {
   @Input() findings: Finding[] = [];
   @Input() policy = '';
   @Input() busy = false;
+  @Input() canClear = false;
+  @Output() clearRequested = new EventEmitter<void>();
   @Output() findingSelected = new EventEmitter<Finding>();
 
   @Input() filters: FindingFilters = { query: '', zone: '', status: '' };
   @Output() filtersChanged = new EventEmitter<FindingFilters>();
 
+  page = 1;
+
   updateFilters(changes: Partial<FindingFilters>): void {
+    this.page = 1;
     this.filtersChanged.emit({ ...this.filters, ...changes });
+  }
+
+  get hasFilters(): boolean {
+    return !!(this.filters.query || this.filters.zone || this.filters.status);
+  }
+
+  clearFilters(): void {
+    this.page = 1;
+    this.filtersChanged.emit({ query: '', zone: '', status: '' });
   }
 
   get zones(): string[] {
@@ -33,6 +54,14 @@ export class FindingsComponent {
             .toLowerCase()
             .includes(query)),
     );
+  }
+
+  get start(): number {
+    return pageStart(this.filtered.length, this.page);
+  }
+
+  get paged(): Finding[] {
+    return paginate(this.filtered, this.page);
   }
 
   get urgent(): number {

@@ -9,7 +9,7 @@
 } @else {
   <aside class="sidebar">
     <div class="brand">
-      <img class="brand-mark" src="/prime-logo.svg" width="44" height="44" alt="" />
+      <prime-logo />
       <div>PRIME<small>Triaje contextual</small></div>
     </div>
     <div class="workspace">
@@ -25,6 +25,9 @@
         <span class="nav-ico" aria-hidden="true">▤</span><span>Hallazgos</span
         ><small>{{ findings.length }}</small>
       </button>
+      <button aria-label="Historial" [class.active]="view === 'historial'" (click)="openHistory()">
+        <span class="nav-ico" aria-hidden="true">⟲</span><span>Historial</span>
+      </button>
       @if (user.role !== 'analista') {
         <button aria-label="Actividad" [class.active]="view === 'actividad'" (click)="audit()">
           <span class="nav-ico" aria-hidden="true">◷</span><span>Actividad</span>
@@ -36,11 +39,33 @@
     </nav>
     <div class="sidebar-bottom">
       <div class="env-chip"><span class="online"></span> Entorno local</div>
-      <div class="avatar-row">
-        <b>{{ user.name.charAt(0) }}</b>
-        <div>
-          {{ user.name }}<small>{{ user.role }}</small>
-        </div>
+      <div class="user-menu">
+        @if (menuOpen) {
+          <div class="user-menu-list" role="menu">
+            <button role="menuitem" [class.active]="view === 'cuenta'" (click)="openView('cuenta')">
+              <span aria-hidden="true">☺</span> Mi cuenta
+            </button>
+            <button
+              role="menuitem"
+              [class.active]="view === 'configuracion'"
+              (click)="openView('configuracion')"
+            >
+              <span aria-hidden="true">⚙</span> Configuración
+            </button>
+          </div>
+        }
+        <button
+          class="avatar-row"
+          aria-haspopup="menu"
+          [attr.aria-expanded]="menuOpen"
+          (click)="menuOpen = !menuOpen"
+        >
+          <b>{{ user.name.charAt(0) }}</b>
+          <div>
+            {{ user.name }}<small>{{ user.role }}</small>
+          </div>
+          <span class="chevron" aria-hidden="true">{{ menuOpen ? '▾' : '▴' }}</span>
+        </button>
       </div>
       <button class="logout" (click)="logout()" [disabled]="busy">Cerrar sesión</button>
     </div>
@@ -49,19 +74,47 @@
     <header class="topbar">
       <span
         >Espacio de trabajo /
-        <b>{{ view === 'hallazgos' ? 'Triaje contextual' : 'Actividad' }}</b></span
+        <b>{{
+          view === 'hallazgos'
+            ? 'Triaje contextual'
+            : view === 'cuenta'
+              ? 'Mi cuenta'
+              : view === 'configuracion'
+                ? 'Configuración'
+                : view === 'historial'
+                  ? 'Historial'
+                  : 'Actividad'
+        }}</b></span
       ><span class="badge">Prototipo 0.1</span>
     </header>
     <section class="content">
       <div class="page-heading">
         <div>
           <span class="eyebrow">Plataforma de triaje</span>
-          <h1>{{ view === 'hallazgos' ? 'Hallazgos y prioridades' : 'Registro de actividad' }}</h1>
+          <h1>
+            {{
+              view === 'hallazgos'
+                ? 'Hallazgos y prioridades'
+                : view === 'cuenta'
+                  ? 'Mi cuenta'
+                  : view === 'configuracion'
+                    ? 'Configuración'
+                    : view === 'historial'
+                      ? 'Historial de cola de tratamiento'
+                      : 'Registro de actividad'
+            }}
+          </h1>
           <p class="muted">
             {{
               view === 'hallazgos'
                 ? 'Decisiones explicables, datos CTI con fecha y tratamiento documentado.'
-                : 'Eventos de autenticación, importación, CTI y revisión.'
+                : view === 'cuenta'
+                  ? 'Datos de tu usuario, rol y permisos en PRIME.'
+                  : view === 'configuracion'
+                    ? 'Preferencias de la interfaz.'
+                    : view === 'historial'
+                      ? 'Limpiezas de la cola con fecha, usuario y detalle.'
+                      : 'Eventos de autenticación, importación, CTI y revisión.'
             }}
           </p>
         </div>
@@ -99,8 +152,21 @@
           (filtersChanged)="filters = $event"
           [policy]="policy"
           [busy]="busy"
+          [canClear]="canWrite"
+          (clearRequested)="clearOpen = true"
           (findingSelected)="select($event)"
         />
+      } @else if (view === 'cuenta') {
+        <prime-account [user]="user" />
+      } @else if (view === 'historial') {
+        <prime-history
+          [archives]="archives"
+          [detail]="archiveDetail"
+          (opened)="openArchive($event)"
+          (back)="archiveDetail = null"
+        />
+      } @else if (view === 'configuracion') {
+        <prime-settings />
       } @else {
         <prime-activity [events]="events" />
       }
@@ -122,4 +188,17 @@
       (reviewSubmitted)="review($event)"
     />
   }
+  <prime-confirm-dialog
+    [open]="clearOpen"
+    title="¿Limpiar la cola de tratamiento?"
+    confirmLabel="Limpiar cola"
+    [destructive]="true"
+    [busy]="busy"
+    (confirmed)="clearQueue()"
+    (cancelled)="clearOpen = false"
+  >
+    Estás a punto de limpiar <b>{{ findings.length }}</b> hallazgos de la cola. Se guardarán en el
+    <b>Historial de cola de tratamiento</b> con la fecha, tu usuario y el detalle de cada uno. Nada
+    se borra, pero la cola quedará vacía.
+  </prime-confirm-dialog>
 }

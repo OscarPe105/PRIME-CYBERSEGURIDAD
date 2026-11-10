@@ -1,7 +1,12 @@
 .sidebar {
   width: 240px;
-  background: linear-gradient(180deg, #15362c 0%, #173e32 55%, #1a4437 100%);
-  color: #e6f0eb;
+  background: linear-gradient(
+    180deg,
+    var(--brand-dark-1) 0%,
+    var(--brand-dark) 55%,
+    var(--brand-dark-2) 100%
+  );
+  color: var(--brand-tint);
   position: fixed;
   inset: 0 auto 0 0;
   padding: 24px 16px;
@@ -20,7 +25,7 @@
 .workspace .ws-kicker,
 .workspace small {
   display: block;
-  color: #99b3a6;
+  color: var(--on-dark-4);
   font-size: 10px;
   font-weight: 500;
   margin: 0;
@@ -36,7 +41,7 @@
 .nav-label {
   font-size: 10px;
   letter-spacing: 1.4px;
-  color: #86a695;
+  color: var(--on-dark-4);
   margin: 0 4px 8px;
   text-transform: uppercase;
 }
@@ -53,7 +58,7 @@
   width: 100%;
   padding: 11px 12px;
   background: transparent;
-  color: #b8cec2;
+  color: var(--on-dark-2);
   font-size: 13px;
   text-align: left;
   text-decoration: none;
@@ -62,10 +67,10 @@
 .sidebar button:hover,
 .sidebar a:hover {
   background: #ffffff12;
-  color: #f3faf6;
+  color: var(--brand-tint-2);
 }
 .sidebar button.active {
-  background: #2f5d4c;
+  background: var(--brand-dark-3);
   color: white;
   box-shadow: inset 0 0 0 1px #ffffff18;
 }
@@ -83,7 +88,7 @@
 }
 .sidebar-bottom {
   margin-top: auto;
-  color: #a9c4b6;
+  color: var(--on-dark-3);
   font-size: 12px;
 }
 .env-chip {
@@ -100,9 +105,9 @@
   display: inline-block;
   width: 7px;
   height: 7px;
-  background: #81c9a8;
+  background: var(--on-dark-accent);
   border-radius: 50%;
-  box-shadow: 0 0 0 3px #81c9a833;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--on-dark-accent) 20%, transparent);
 }
 .avatar-row {
   margin: 14px 0 10px;
@@ -117,7 +122,7 @@
   height: 36px;
   display: grid;
   place-items: center;
-  background: #335b4c;
+  background: var(--brand-dark-3);
   border-radius: 50%;
   color: white;
   font-size: 13px;
@@ -125,13 +130,13 @@
 .avatar-row small {
   display: block;
   margin-top: 3px;
-  color: #89aa97;
+  color: var(--on-dark-4);
   text-transform: capitalize;
 }
 .logout {
   justify-content: center;
   border: 1px solid #ffffff22 !important;
-  color: #d7e8df !important;
+  color: var(--on-dark) !important;
 }
 .logout:hover {
   background: #ffffff14 !important;
@@ -145,25 +150,25 @@
   height: 64px;
   background: #ffffffcc;
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid #e2e9e5;
+  border-bottom: 1px solid var(--border);
   padding: 0 36px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-size: 12px;
-  color: #87948b;
+  color: var(--muted-text);
   position: sticky;
   top: 0;
   z-index: 2;
 }
 .topbar b {
-  color: #486055;
+  color: var(--text-soft);
   font-weight: 600;
 }
 .badge {
   font-size: 10px;
-  color: #6a8375;
-  border: 1px solid #e1e8e4;
+  color: var(--muted-text);
+  border: 1px solid var(--border);
   background: white;
   border-radius: 20px;
   padding: 6px 11px;
@@ -200,4 +205,57 @@
   opacity: 0;
   cursor: pointer;
   padding: 0;
+}
+
+/* Menú de usuario (desplegable del sidebar) */
+.user-menu {
+  position: relative;
+  margin: 14px 0 10px;
+  border-top: 1px solid #ffffff1a;
+  padding-top: 12px;
+}
+.user-menu .avatar-row {
+  margin: 0;
+  padding: 6px;
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  font-weight: 400;
+  font-size: 12px;
+}
+.user-menu .avatar-row:hover {
+  background: #ffffff14;
+}
+.avatar-row .chevron {
+  margin-left: auto;
+  color: var(--on-dark-4);
+}
+.user-menu-list {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% - 4px);
+  background: var(--brand-dark-2);
+  border: 1px solid #ffffff22;
+  border-radius: 10px;
+  padding: 6px;
+  display: grid;
+  gap: 2px;
+  box-shadow: 0 10px 24px #0000004d;
+}
+.user-menu-list button {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: transparent;
+  color: var(--on-dark);
+  text-align: left;
+  width: 100%;
+}
+.user-menu-list button:hover,
+.user-menu-list button.active {
+  background: #ffffff1a;
 }

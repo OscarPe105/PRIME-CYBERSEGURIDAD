@@ -1,0 +1,7 @@
+/* Tailwind sin preflight para no alterar el CSS existente mientras se migra. */
+@layer theme, base, legacy, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+@import './tokens.css';
+/* Estilos base del overlay de CDK (necesarios para los diálogos de Spartan brain). */
+@import '@angular/cdk/overlay-prebuilt.css';

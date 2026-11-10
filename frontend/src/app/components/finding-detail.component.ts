@@ -9,9 +9,13 @@ import {
 import { FormsModule } from '@angular/forms';
 import { canWrite, type Finding, type FindingHistory, type User } from '../models/prime';
 import { ctiStatus, date } from '../utils/format';
-import template from './finding-detail.component.html?raw';
 
-@Component({ selector: 'prime-finding-detail', standalone: true, imports: [FormsModule], template })
+@Component({
+  selector: 'prime-finding-detail',
+  standalone: true,
+  imports: [FormsModule],
+  templateUrl: './finding-detail.component.html',
+})
 export class FindingDetailComponent implements OnChanges {
   @Input({ required: true }) finding!: Finding;
   @Input({ required: true }) user!: User;

@@ -76,11 +76,6 @@
   .drawer {
     width: min(470px, 100%);
   }
-  .experiment {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 4px;
-  }
   h1 {
     font-size: 25px;
   }

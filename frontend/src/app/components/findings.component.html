@@ -16,21 +16,17 @@
     ><small>Cierres administrativos</small>
   </article>
 </div>
-<div class="experiment">
-  <b>PRIME 1.0</b
-  ><span
-    >Nuevas evaluaciones: 60 % CVSS declarado + 40 % DREAD ponderado. EPSS es información
-    complementaria y KEV establece atención urgente. Los pesos requieren evaluación
-    independiente.</span
-  >
-</div>
 <section class="table-card">
-  <div class="table-toolbar">
-    <h2>
-      Cola de tratamiento <span>{{ filtered.length }}</span>
+  <div class="flex flex-col gap-4 px-5 py-4">
+    <h2 class="flex items-center gap-2 text-lg font-semibold text-foreground">
+      Cola de tratamiento
+      <span class="rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">{{
+        filtered.length
+      }}</span>
     </h2>
-    <div class="filters">
+    <div class="flex flex-wrap items-center gap-2">
       <input
+        class="w-72 max-w-full"
         aria-label="Buscar hallazgo"
         placeholder="Buscar ID, CVE o activo…"
         [ngModel]="filters.query"
@@ -54,12 +50,23 @@
         <option value="propuesto">Propuesto</option>
         <option value="mitigado">Mitigado</option>
       </select>
+      <button
+        hlmBtn
+        variant="ghost"
+        size="sm"
+        type="button"
+        [disabled]="!hasFilters"
+        (click)="clearFilters()"
+      >
+        ✕ Limpiar filtros
+      </button>
     </div>
   </div>
   <div class="table-scroll">
     <table>
       <thead>
         <tr>
+          <th>#</th>
           <th>Hallazgo / CVE</th>
           <th>Activo y zona</th>
           <th>CVSS</th>
@@ -70,8 +77,9 @@
         </tr>
       </thead>
       <tbody>
-        @for (f of filtered; track f.id) {
+        @for (f of paged; track f.id; let i = $index) {
           <tr>
+            <td>{{ start + i }}</td>
             <td>
               <b>{{ f.reference }}</b
               ><small>{{ f.cve || 'Configuración · sin CVE' }}</small>
@@ -106,7 +114,7 @@
           </tr>
         } @empty {
           <tr>
-            <td colspan="7">
+            <td colspan="8">
               <div class="empty">
                 <div class="empty-mark" aria-hidden="true">▤</div>
                 <h3>{{ findings.length ? 'Sin coincidencias' : 'Comienza con tus hallazgos' }}</h3>
@@ -124,6 +132,26 @@
       </tbody>
     </table>
   </div>
+  <prime-pagination [total]="filtered.length" [page]="page" (pageChange)="page = $event" />
+  @if (canClear) {
+    <div
+      class="flex items-center justify-between gap-3 border-t border-border bg-background px-5 py-3"
+    >
+      <p class="text-xs text-muted-foreground">
+        Archiva todos los hallazgos de la cola en el historial; no borra datos.
+      </p>
+      <button
+        hlmBtn
+        variant="outline"
+        size="sm"
+        type="button"
+        [disabled]="busy || findings.length === 0"
+        (click)="clearRequested.emit()"
+      >
+        Limpiar tratamiento
+      </button>
+    </div>
+  }
   <footer class="table-footer">
     Política para nuevas evaluaciones: {{ policy }}. Cada resultado conserva su versión histórica.
     Orden: atención KEV, IRC e ID estable. La pertenencia a KEV no demuestra compromiso del activo.

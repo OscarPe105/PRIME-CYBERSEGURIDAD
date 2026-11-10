@@ -128,3 +128,25 @@ export interface FindingFilters {
   zone: string;
   status: string;
 }
+
+export interface QueueArchive {
+  id: number;
+  count: number;
+  created_at: string;
+  user_name: string;
+  user_email: string;
+}
+
+export interface ImportBatchInfo {
+  id: number;
+  count: number;
+  created_at: string;
+  user_name: string;
+  user_email: string;
+}
+
+export interface ArchiveDetail {
+  archive: QueueArchive;
+  batches: ImportBatchInfo[];
+  findings: Finding[];
+}

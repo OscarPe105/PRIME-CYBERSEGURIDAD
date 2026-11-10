@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Component, inject, type OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, inject, type OnInit } from '@angular/core';
+import { AccountComponent } from './components/account.component';
+import { SettingsComponent } from './components/settings.component';
+import { HistoryComponent } from './components/history.component';
+import { LogoComponent } from './ui/logo.component';
+import { ConfirmDialogComponent } from './ui/confirm-dialog.component';
 import { ActivityComponent } from './components/activity.component';
 import { FindingDetailComponent } from './components/finding-detail.component';
 import { FindingsComponent } from './components/findings.component';
@@ -6,29 +11,35 @@ import { LoginComponent } from './components/login.component';
 import { RecoveryComponent } from './components/recovery.component';
 import {
   canWrite,
+  type ArchiveDetail,
   type AuditEvent,
   type Credentials,
   type Finding,
   type FindingHistory,
   type FindingFilters,
   type MfaChallenge,
+  type QueueArchive,
   type User,
 } from './models/prime';
 import { ApiError, PrimeApiService } from './services/prime-api.service';
 import { ctiStatus } from './utils/format';
-import template from './app.component.html?raw';
 
 @Component({
   selector: 'prime-app',
   standalone: true,
   imports: [
+    AccountComponent,
+    LogoComponent,
+    HistoryComponent,
+    ConfirmDialogComponent,
+    SettingsComponent,
     LoginComponent,
     RecoveryComponent,
     FindingsComponent,
     FindingDetailComponent,
     ActivityComponent,
   ],
-  template,
+  templateUrl: './app.component.html',
 })
 export class PrimeApp implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
@@ -46,7 +57,11 @@ export class PrimeApp implements OnInit {
   selected: Finding | null = null;
   history: FindingHistory | null = null;
   events: AuditEvent[] = [];
-  view: 'hallazgos' | 'actividad' = 'hallazgos';
+  menuOpen = false;
+  clearOpen = false;
+  archives: QueueArchive[] = [];
+  archiveDetail: ArchiveDetail | null = null;
+  view: 'hallazgos' | 'actividad' | 'cuenta' | 'configuracion' | 'historial' = 'hallazgos';
 
   async ngOnInit(): Promise<void> {
     await this.task(async () => {
@@ -54,6 +69,22 @@ export class PrimeApp implements OnInit {
       this.user = session.user;
       if (this.user) await this.load();
     });
+  }
+
+  openView(view: 'cuenta' | 'configuracion'): void {
+    this.view = view;
+    this.menuOpen = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  closeMenuOutside(event: Event): void {
+    if (this.menuOpen && !(event.target as HTMLElement).closest('.user-menu'))
+      this.menuOpen = false;
+  }
+
+  @HostListener('document:keydown.escape')
+  closeMenuEscape(): void {
+    this.menuOpen = false;
   }
 
   get canWrite(): boolean {
@@ -148,6 +179,31 @@ export class PrimeApp implements OnInit {
     });
   }
 
+  async openHistory(): Promise<void> {
+    await this.task(async () => {
+      this.archiveDetail = null;
+      this.archives = (await this.api.archives()).archives;
+      this.view = 'historial';
+    });
+  }
+
+  async openArchive(id: number): Promise<void> {
+    await this.task(async () => {
+      this.archiveDetail = await this.api.archive(id);
+    });
+  }
+
+  async clearQueue(): Promise<void> {
+    await this.task(async () => {
+      const response = await this.api.clearQueue();
+      this.clearOpen = false;
+      this.selected = null;
+      this.notice = `Cola limpiada: ${response.count} hallazgos guardados en el historial de cola de tratamiento.`;
+      await this.load();
+    });
+    this.clearOpen = false;
+  }
+
   async audit(): Promise<void> {
     await this.task(async () => {
       const response = await this.api.audit();
@@ -178,6 +234,10 @@ export class PrimeApp implements OnInit {
     this.history = null;
     this.events = [];
     this.view = 'hallazgos';
+    this.menuOpen = false;
+    this.clearOpen = false;
+    this.archives = [];
+    this.archiveDetail = null;
     this.filters = { query: '', zone: '', status: '' };
   }
 

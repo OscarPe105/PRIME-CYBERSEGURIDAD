@@ -1,8 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 :root {
   font-family: 'DM Sans', Arial, sans-serif;
-  color: #263a36;
-  background: #eef3f0;
+  color: var(--text);
+  background: var(--bg);
   font-synthesis: none;
 }
 * {
@@ -40,11 +39,11 @@ button:disabled {
 input,
 select,
 textarea {
-  border: 1px solid #d8e1dd;
+  border: 1px solid var(--border);
   background: white;
   border-radius: 8px;
   padding: 11px;
-  color: #273d37;
+  color: var(--text);
   min-width: 0;
 }
 input:focus,
@@ -66,26 +65,26 @@ label textarea {
   margin-top: 7px;
 }
 .primary {
-  background: #176c55;
+  background: var(--brand);
   color: white;
 }
 .primary:hover {
-  background: #145c49;
+  background: var(--brand-hover);
 }
 .secondary {
   background: white;
-  border: 1px solid #d8e1dd;
-  color: #325449;
+  border: 1px solid var(--border);
+  color: var(--text-soft);
 }
 .ghost {
   background: transparent;
-  color: #3d5c4e;
+  color: var(--text-soft);
 }
 .full {
   width: 100%;
 }
 .muted {
-  color: #78877f;
+  color: var(--muted-text);
   font-size: 14px;
   line-height: 1.6;
 }
@@ -93,7 +92,7 @@ label textarea {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 1.7px;
-  color: #71867b;
+  color: var(--muted-text);
   text-transform: uppercase;
 }
 h1,
@@ -129,7 +128,7 @@ h3 {
     600 9px/1.2 'DM Sans',
     sans-serif;
   letter-spacing: 0.8px;
-  color: #9cb8aa;
+  color: var(--muted-text);
   margin-top: 4px;
   text-transform: uppercase;
 }

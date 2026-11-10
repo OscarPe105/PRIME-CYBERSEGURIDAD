@@ -1,10 +1,10 @@
 .recovery {
   padding: 20px 22px;
   border: 1px solid #c9dfd0;
-  background: linear-gradient(180deg, #f6fbf7, #ecf6ef);
+  background: linear-gradient(180deg, var(--brand-tint-2), var(--brand-tint));
   border-radius: 14px;
   margin: 16px 0 8px;
-  box-shadow: 0 8px 20px #176c5510;
+  box-shadow: 0 8px 20px var(--brand) 10;
 }
 .recovery-head {
   display: flex;
@@ -19,7 +19,7 @@
   display: grid;
   place-items: center;
   border-radius: 9px;
-  background: #176c55;
+  background: var(--brand);
   color: white;
   font-weight: 800;
 }
@@ -31,7 +31,7 @@
   font-size: 13px;
   line-height: 1.6;
   margin: 0;
-  color: #4f6a5c;
+  color: var(--text-soft);
   max-width: 62ch;
 }
 .code-grid {
@@ -57,8 +57,8 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #e7f2eb;
-  color: #2c6a52;
+  background: var(--brand-tint);
+  color: var(--brand);
   display: grid;
   place-items: center;
   font:

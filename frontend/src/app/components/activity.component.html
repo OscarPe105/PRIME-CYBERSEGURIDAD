@@ -3,6 +3,7 @@
     <table>
       <thead>
         <tr>
+          <th>#</th>
           <th>FECHA</th>
           <th>EVENTO</th>
           <th>USUARIO</th>
@@ -10,8 +11,9 @@
         </tr>
       </thead>
       <tbody>
-        @for (e of events; track e.id) {
+        @for (e of paged; track e.id; let i = $index) {
           <tr>
+            <td>{{ start + i }}</td>
             <td>{{ date(e.created_at) }}</td>
             <td>{{ e.event }}</td>
             <td>{{ e.user_id || 'Sin sesión' }}</td>
@@ -21,4 +23,5 @@
       </tbody>
     </table>
   </div>
+  <prime-pagination [total]="events.length" [page]="page" (pageChange)="page = $event" />
 </section>

@@ -8,10 +8,24 @@ final class FindingService
 {
     public function __construct(private readonly PrimeEngine $engine) {}
 
+    /** Hallazgos activos de la cola de tratamiento (no archivados). */
     public function all(): array
     {
+        return $this->list(null);
+    }
+
+    /** Hallazgos de un archivo del historial, con su último cálculo. */
+    public function archived(int $archiveId): array
+    {
+        return $this->list($archiveId);
+    }
+
+    private function list(?int $archiveId): array
+    {
         $result = [];
-        foreach (DB::table('findings')->orderBy('id')->limit(1000)->get() as $finding) {
+        $query = DB::table('findings')->orderBy('id')->limit(1000);
+        $archiveId === null ? $query->whereNull('archive_id') : $query->where('archive_id', $archiveId);
+        foreach ($query->get() as $finding) {
             $latest = DB::table('triage_revisions')->where('finding_id', $finding->id)->latest('id')->first();
             $snapshot = json_decode($latest->snapshot, true);
             unset($snapshot['epss']['raw'], $snapshot['kev']['raw']);

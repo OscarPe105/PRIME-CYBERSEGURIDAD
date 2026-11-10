@@ -1,0 +1,75 @@
+<section class="grid gap-6 lg:grid-cols-3">
+  <div class="rounded-ui border border-border bg-background p-6 lg:col-span-1">
+    <div class="flex items-center gap-4">
+      <div
+        class="flex size-14 items-center justify-center rounded-full bg-primary text-xl font-semibold text-primary-foreground"
+        aria-hidden="true"
+      >
+        {{ initial }}
+      </div>
+      <div class="min-w-0">
+        <h2 class="truncate text-lg font-semibold text-foreground">{{ user.name }}</h2>
+        <span
+          class="mt-1 inline-block rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium capitalize text-foreground"
+          >{{ user.role }}</span
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="rounded-ui border border-border bg-background p-6 lg:col-span-2">
+    <h3 class="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+      Datos de la cuenta
+    </h3>
+    <div class="mt-4 divide-y divide-border">
+      <div class="flex flex-col gap-1 py-3 sm:flex-row sm:justify-between">
+        <span class="text-sm text-muted-foreground">Nombre</span>
+        <span class="text-sm font-medium text-foreground">{{ user.name }}</span>
+      </div>
+      <div class="flex flex-col gap-1 py-3 sm:flex-row sm:justify-between">
+        <span class="text-sm text-muted-foreground">Correo</span>
+        <span class="text-sm font-medium text-foreground">{{ user.email }}</span>
+      </div>
+      <div class="flex flex-col gap-1 py-3 sm:flex-row sm:justify-between">
+        <span class="text-sm text-muted-foreground">Rol</span>
+        <span class="text-sm font-medium capitalize text-foreground">{{ user.role }}</span>
+      </div>
+      <div class="flex flex-col gap-1 py-3 sm:flex-row sm:justify-between">
+        <span class="text-sm text-muted-foreground">Autenticación</span>
+        <span class="text-sm font-medium text-foreground">Contraseña + TOTP (MFA)</span>
+      </div>
+      <div class="flex flex-col gap-1 py-3 sm:flex-row sm:justify-between">
+        <span class="text-sm text-muted-foreground">Sesión</span>
+        <span class="text-sm font-medium text-foreground">Activa · entorno local</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="rounded-ui border border-border bg-background p-6 lg:col-span-3">
+    <h3 class="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+      Permisos del rol
+    </h3>
+    <ul class="mt-4 grid gap-2 sm:grid-cols-2">
+      @for (p of permissions; track p.label) {
+        <li class="flex items-center gap-3 text-sm">
+          <span
+            class="flex size-5 shrink-0 items-center justify-center rounded-full text-xs"
+            [class]="
+              allowed(p) ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
+            "
+            aria-hidden="true"
+            >{{ allowed(p) ? '✓' : '–' }}</span
+          >
+          <span [class]="allowed(p) ? 'text-foreground' : 'text-muted-foreground line-through'">{{
+            p.label
+          }}</span>
+          <span class="sr-only">{{ allowed(p) ? 'permitido' : 'no permitido' }}</span>
+        </li>
+      }
+    </ul>
+    <p class="mt-4 text-xs text-muted-foreground">
+      Datos disponibles hoy en la API: nombre, correo y rol. Fecha de alta y estado de MFA no se
+      exponen todavía.
+    </p>
+  </div>
+</section>
