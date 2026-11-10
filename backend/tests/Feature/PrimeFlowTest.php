@@ -81,6 +81,37 @@ final class PrimeFlowTest extends TestCase
         $this->assertDatabaseCount('findings', 1);
     }
 
+    public function test_clearing_the_queue_archives_without_deleting_and_allows_reimport(): void
+    {
+        Storage::fake('local');
+        $user = $this->asRole();
+        $this->import($this->csv())->assertOk();
+        $this->postJson('/api/queue/clear')->assertOk()->assertJson(['count' => 1]);
+
+        $this->assertDatabaseCount('findings', 1);
+        $this->assertDatabaseCount('triage_revisions', 1);
+        $this->getJson('/api/findings')->assertOk()->assertJsonCount(0, 'findings');
+        $this->postJson('/api/queue/clear')->assertUnprocessable();
+
+        $archives = $this->getJson('/api/queue/archives')->assertOk()->json('archives');
+        $this->assertCount(1, $archives);
+        $this->assertSame($user->email, $archives[0]['user_email']);
+        $detail = $this->getJson('/api/queue/archives/'.$archives[0]['id'])->assertOk();
+        $this->assertSame('T01', $detail->json('findings.0.reference'));
+        $this->assertCount(1, $detail->json('batches'));
+        $this->assertDatabaseHas('audit_events', ['event' => 'queue_cleared']);
+
+        $this->import($this->csv())->assertOk();
+        $this->getJson('/api/findings')->assertOk()->assertJsonCount(1, 'findings');
+    }
+
+    public function test_auditor_can_read_archives_but_not_clear_the_queue(): void
+    {
+        $this->asRole('auditor');
+        $this->postJson('/api/queue/clear')->assertForbidden();
+        $this->getJson('/api/queue/archives')->assertOk();
+    }
+
     public function test_old_revision_survives_recalculation(): void
     {
         Storage::fake('local');
@@ -193,6 +224,9 @@ final class PrimeFlowTest extends TestCase
             ['GET', '/api/audit'],
             ['POST', '/api/auth/logout'],
             ['POST', '/api/imports'],
+            ['POST', '/api/queue/clear'],
+            ['GET', '/api/queue/archives'],
+            ['GET', '/api/queue/archives/1'],
             ['POST', '/api/findings/1/cti'],
             ['POST', '/api/findings/1/propose'],
             ['POST', '/api/findings/1/evidence'],

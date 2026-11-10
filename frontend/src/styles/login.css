@@ -4,8 +4,8 @@
   grid-template-columns: 45% 55%;
 }
 .login-story {
-  background: #173e32;
-  color: #eff7f2;
+  background: var(--brand-dark);
+  color: var(--brand-tint);
   padding: 55px;
   display: flex;
   flex-direction: column;
@@ -18,7 +18,7 @@
   top: 45px;
 }
 .login-story .eyebrow {
-  color: #a5c1b3;
+  color: var(--on-dark-3);
 }
 .login-story h1 {
   font-size: 43px;
@@ -29,14 +29,14 @@
 .login-story p {
   max-width: 380px;
   line-height: 1.8;
-  color: #b5cdc1;
+  color: var(--on-dark-2);
 }
 .story-bottom {
   position: absolute;
   bottom: 40px;
   font-size: 9px;
   letter-spacing: 1.4px;
-  color: #a8c2b6;
+  color: var(--on-dark-3);
 }
 .login-main {
   display: grid;
@@ -56,12 +56,12 @@
 }
 .login-foot {
   font-size: 11px;
-  color: #8a9790;
+  color: var(--on-dark-4);
   line-height: 1.7;
   margin-top: 28px;
 }
 .enrollment {
-  background: #eaf1ed;
+  background: var(--brand-tint);
   padding: 18px;
   border-radius: 8px;
   font-size: 13px;
@@ -77,6 +77,6 @@
 
 .login-mobile-brand {
   display: none;
-  color: #176c55;
+  color: var(--brand);
   margin-bottom: 32px;
 }

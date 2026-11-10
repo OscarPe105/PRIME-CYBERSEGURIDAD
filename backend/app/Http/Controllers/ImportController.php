@@ -21,7 +21,7 @@ final class ImportController extends Controller
         $request->validate(['file' => 'required|file|max:2048']);
         $file = $request->file('file');
         $rows = $csv->parse($file->getRealPath());
-        if (DB::table('findings')->whereIn('reference', array_column($rows, 'id'))->exists()) {
+        if (DB::table('findings')->where('archive_key', 0)->whereIn('reference', array_column($rows, 'id'))->exists()) {
             throw ValidationException::withMessages(['file' => 'Existe un ID previamente importado. No se sobrescribieron hallazgos.']);
         }
         $path = $file->store('imports', 'local');

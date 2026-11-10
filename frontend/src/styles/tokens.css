@@ -1,0 +1,24 @@
+/* Tokens de diseño (estilo shadcn/Spartan). Los componentes nuevos usan estas variables. */
+:root {
+  --ui-background: #ffffff;
+  --ui-foreground: var(--text);
+  --ui-muted: var(--brand-tint);
+  --ui-muted-foreground: var(--muted-text);
+  --ui-border: var(--border);
+  --ui-primary: var(--brand);
+  --ui-primary-foreground: #ffffff;
+  --ui-destructive: #dc2626;
+  --ui-radius: 0.5rem;
+}
+
+@theme inline {
+  --color-background: var(--ui-background);
+  --color-foreground: var(--ui-foreground);
+  --color-muted: var(--ui-muted);
+  --color-muted-foreground: var(--ui-muted-foreground);
+  --color-border: var(--ui-border);
+  --color-primary: var(--ui-primary);
+  --color-primary-foreground: var(--ui-primary-foreground);
+  --color-destructive: var(--ui-destructive);
+  --radius-ui: var(--ui-radius);
+}

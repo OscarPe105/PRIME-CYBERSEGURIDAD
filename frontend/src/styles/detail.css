@@ -30,14 +30,14 @@
   display: flex;
   align-items: center;
   gap: 18px;
-  background: #f0f5f0;
+  background: var(--brand-tint-2);
   border-radius: 8px;
   padding: 20px;
   margin: 20px 0;
 }
 .detail-score strong {
   font-size: 34px;
-  color: #246e53;
+  color: var(--brand);
 }
 .detail-score div {
   font-size: 13px;
@@ -45,7 +45,7 @@
 .detail-score small {
   display: block;
   font-size: 10px;
-  color: #809284;
+  color: var(--muted-text);
   margin-top: 6px;
 }
 dl {
@@ -55,7 +55,7 @@ dl {
   font-size: 12px;
 }
 dt {
-  color: #8a978f;
+  color: var(--muted-text);
 }
 dd {
   margin: 0;
@@ -63,7 +63,7 @@ dd {
 .context-text {
   font-size: 12px;
   line-height: 1.8;
-  color: #6a7a70;
+  color: var(--muted-text);
 }
 details {
   font-size: 11px;
@@ -82,19 +82,19 @@ details {
   font-size: 12px;
 }
 .evidence-item a {
-  color: #286f55;
+  color: var(--brand);
 }
 .evidence-item small {
   word-break: break-all;
   display: block;
   font-size: 9px;
   margin-top: 8px;
-  color: #91a091;
+  color: var(--muted-text);
 }
 .revision small {
   display: block;
   margin-top: 6px;
-  color: #8a998e;
+  color: var(--muted-text);
   font-size: 10px;
 }
 .drawer > p {

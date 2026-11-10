@@ -1,9 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { LogoComponent } from '../ui/logo.component';
 import { FormsModule } from '@angular/forms';
 import type { Credentials, MfaChallenge } from '../models/prime';
-import template from './login.component.html?raw';
 
-@Component({ selector: 'prime-login', standalone: true, imports: [FormsModule], template })
+@Component({
+  selector: 'prime-login',
+  standalone: true,
+  imports: [FormsModule, LogoComponent],
+  templateUrl: './login.component.html',
+})
 export class LoginComponent {
   @Input() mfa: MfaChallenge | null = null;
   @Input() error = '';

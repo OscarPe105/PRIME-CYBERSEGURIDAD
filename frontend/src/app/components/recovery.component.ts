@@ -8,9 +8,12 @@ import {
   type OnDestroy,
 } from '@angular/core';
 import { copyText, downloadText } from '../utils/clipboard';
-import template from './recovery.component.html?raw';
 
-@Component({ selector: 'prime-recovery', standalone: true, template })
+@Component({
+  selector: 'prime-recovery',
+  standalone: true,
+  templateUrl: './recovery.component.html',
+})
 export class RecoveryComponent implements OnDestroy {
   @Input() recovery: string[] = [];
   @Output() dismissed = new EventEmitter<void>();

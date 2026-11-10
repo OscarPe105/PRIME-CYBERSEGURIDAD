@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import type {
+  ArchiveDetail,
   AuditEvent,
   Credentials,
   CtiStatus,
   Finding,
   FindingHistory,
   MfaChallenge,
+  QueueArchive,
   User,
 } from '../models/prime';
 
@@ -79,6 +81,18 @@ export class PrimeApiService {
     return this.request<{ status: 'mitigado'; message: string }>(`/findings/${id}/review`, 'POST', {
       note,
     });
+  }
+
+  clearQueue() {
+    return this.request<{ archive_id: number; count: number }>('/queue/clear', 'POST');
+  }
+
+  archives() {
+    return this.request<{ archives: QueueArchive[] }>('/queue/archives');
+  }
+
+  archive(id: number) {
+    return this.request<ArchiveDetail>(`/queue/archives/${id}`);
   }
 
   audit() {

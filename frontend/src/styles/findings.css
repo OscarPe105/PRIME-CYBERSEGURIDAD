@@ -6,24 +6,24 @@
 }
 .metrics article {
   background: white;
-  border: 1px solid #e1e8e3;
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 18px 18px 16px;
   box-shadow: 0 1px 0 #163c3208;
-  border-top: 3px solid #176c55;
+  border-top: 3px solid var(--brand);
 }
 .metrics article.accent-urgent {
   border-top-color: #c9843a;
 }
 .metrics article.accent-pending {
-  border-top-color: #7a8f84;
+  border-top-color: var(--muted-text);
 }
 .metrics article.accent-ok {
-  border-top-color: #2a8a68;
+  border-top-color: var(--brand-accent);
 }
 .metrics article span {
   font-size: 11px;
-  color: #72877b;
+  color: var(--muted-text);
 }
 .metrics strong {
   font-family: 'Manrope', Arial, sans-serif;
@@ -35,35 +35,18 @@
 }
 .metrics small {
   font-size: 11px;
-  color: #97a29b;
+  color: var(--muted-text);
 }
 .orange {
   color: #b27337 !important;
 }
 .green {
-  color: #25765b;
-}
-
-.experiment {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  font-size: 12px;
-  line-height: 1.7;
-  margin: 0 0 18px;
-  color: #78867e;
-  background: #e7eee9;
-  border-radius: 10px;
-  padding: 10px 14px;
-}
-.experiment b {
-  color: #4a6756;
-  white-space: nowrap;
+  color: var(--brand);
 }
 
 .table-card {
   background: white;
-  border: 1px solid #e1e8e3;
+  border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 8px 24px #163c3208;
@@ -82,12 +65,12 @@
 }
 .table-toolbar h2 span {
   font-family: 'DM Sans', Arial, sans-serif;
-  background: #eef3ef;
+  background: var(--brand-tint);
   padding: 3px 8px;
   font-size: 11px;
   border-radius: 999px;
   margin-left: 6px;
-  color: #668071;
+  color: var(--muted-text);
 }
 .filters {
   display: flex;
@@ -112,11 +95,11 @@ table {
 th {
   font-size: 10px;
   letter-spacing: 0.6px;
-  color: #8a998f;
+  color: var(--muted-text);
   background: #f7f9f7;
   text-align: left;
   padding: 12px 18px;
-  border-block: 1px solid #e8ede9;
+  border-block: 1px solid var(--border);
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -132,11 +115,11 @@ td b {
 td small {
   display: block;
   font-size: 11px;
-  color: #88988e;
+  color: var(--muted-text);
   margin-top: 5px;
 }
 tbody tr:hover td {
-  background: #f8fbf9;
+  background: var(--brand-tint-2);
 }
 tbody tr:last-child td {
   border-bottom: 0;
@@ -146,8 +129,8 @@ tbody tr:last-child td {
   font-size: 11px;
   border-radius: 999px;
   padding: 5px 9px;
-  color: #537561;
-  background: #edf4ed;
+  color: var(--text-soft);
+  background: var(--brand-tint);
 }
 .pill.high {
   color: #b47b32;
@@ -159,9 +142,9 @@ tbody tr:last-child td {
 }
 .status {
   text-transform: capitalize;
-  color: #6c8172;
+  color: var(--muted-text);
   font-size: 11px;
-  background: #f1f5f2;
+  background: var(--brand-tint-2);
   border-radius: 999px;
   padding: 4px 9px;
 }
@@ -174,24 +157,24 @@ tbody tr:last-child td {
   color: #9a6a2a;
 }
 .status[data-status='mitigado'] {
-  background: #e7f4ec;
-  color: #2a7a58;
+  background: var(--brand-tint);
+  color: var(--brand);
 }
 .detail-button {
   font-size: 12px;
   padding: 7px 12px;
-  background: #edf5f0;
-  color: #246851;
+  background: var(--brand-tint);
+  color: var(--brand);
 }
 .detail-button:hover {
-  background: #dceee4;
+  background: var(--brand-tint);
 }
 .table-footer {
   padding: 14px 20px;
   font-size: 11px;
-  color: #91a095;
+  color: var(--muted-text);
   background: #fcfdfb;
-  border-top: 1px solid #e8ede9;
+  border-top: 1px solid var(--border);
 }
 .empty {
   text-align: center;
@@ -199,7 +182,7 @@ tbody tr:last-child td {
   max-width: 480px;
   margin: auto;
   white-space: normal;
-  color: #7b8b81;
+  color: var(--muted-text);
 }
 .empty-mark {
   width: 48px;
@@ -208,12 +191,12 @@ tbody tr:last-child td {
   display: grid;
   place-items: center;
   border-radius: 12px;
-  background: #eef4f0;
-  color: #3d6b57;
+  background: var(--brand-tint);
+  color: var(--text-soft);
   font-size: 20px;
 }
 .empty h3 {
-  color: #486355;
+  color: var(--text-soft);
   margin: 0 0 10px;
   font-size: 18px;
 }
@@ -224,7 +207,7 @@ tbody tr:last-child td {
 .page-foot {
   font-size: 11px;
   text-align: center;
-  color: #9caaa0;
+  color: var(--muted-text);
   margin: 28px 0 0;
 }
 .alert {
@@ -239,8 +222,8 @@ tbody tr:last-child td {
   color: #a14e36;
 }
 .notice {
-  background: #e7f2eb;
-  color: #376947;
+  background: var(--brand-tint);
+  color: var(--brand);
 }
 .pulse {
   margin: 8px 0;

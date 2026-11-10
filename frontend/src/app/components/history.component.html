@@ -1,0 +1,156 @@
+@if (!detail) {
+  <section class="overflow-hidden rounded-ui border border-border bg-background">
+    <div class="border-b border-border px-5 py-4">
+      <h2 class="text-base font-semibold text-foreground">Historial de cola de tratamiento</h2>
+      <p class="mt-1 text-sm text-muted-foreground">
+        Cada limpieza guarda aquí la fecha, quién la hizo y los hallazgos que contenía la cola.
+      </p>
+    </div>
+    @if (archives.length === 0) {
+      <p class="px-5 py-10 text-center text-sm text-muted-foreground">
+        Aún no hay limpiezas registradas.
+      </p>
+    } @else {
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-muted text-xs uppercase tracking-wide text-muted-foreground">
+            <tr>
+              <th class="px-5 py-3 font-medium">#</th>
+              <th class="px-5 py-3 font-medium">Fecha</th>
+              <th class="px-5 py-3 font-medium">Usuario</th>
+              <th class="px-5 py-3 font-medium">Hallazgos</th>
+              <th class="px-5 py-3"><span class="sr-only">Acciones</span></th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-border">
+            @for (a of pagedArchives; track a.id; let i = $index) {
+              <tr>
+                <td class="px-5 py-3 text-muted-foreground">{{ listStart + i }}</td>
+                <td class="px-5 py-3 text-foreground">{{ date(a.created_at) }}</td>
+                <td class="px-5 py-3">
+                  <span class="block text-foreground">{{ a.user_name }}</span>
+                  <span class="block text-xs text-muted-foreground">{{ a.user_email }}</span>
+                </td>
+                <td class="px-5 py-3 text-foreground">{{ a.count }}</td>
+                <td class="px-5 py-3 text-right">
+                  <button
+                    hlmBtn
+                    variant="outline"
+                    size="sm"
+                    type="button"
+                    (click)="openArchive(a.id)"
+                  >
+                    Ver detalle
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <prime-pagination
+        [total]="archives.length"
+        [page]="listPage"
+        (pageChange)="listPage = $event"
+      />
+    }
+  </section>
+} @else {
+  <section class="grid gap-4">
+    <div class="flex items-center justify-between gap-4">
+      <button hlmBtn variant="ghost" size="sm" type="button" (click)="back.emit()">
+        ← Volver al historial
+      </button>
+    </div>
+
+    <div class="grid gap-4 rounded-ui border border-border bg-background p-5 sm:grid-cols-3">
+      <div>
+        <span class="block text-xs uppercase tracking-wide text-muted-foreground">Limpieza</span>
+        <span class="mt-1 block text-sm font-medium text-foreground">{{
+          date(detail.archive.created_at)
+        }}</span>
+      </div>
+      <div>
+        <span class="block text-xs uppercase tracking-wide text-muted-foreground">Usuario</span>
+        <span class="mt-1 block text-sm font-medium text-foreground">{{
+          detail.archive.user_name
+        }}</span>
+        <span class="block text-xs text-muted-foreground">{{ detail.archive.user_email }}</span>
+      </div>
+      <div>
+        <span class="block text-xs uppercase tracking-wide text-muted-foreground">Hallazgos</span>
+        <span class="mt-1 block text-sm font-medium text-foreground">{{
+          detail.archive.count
+        }}</span>
+      </div>
+    </div>
+
+    <div class="overflow-hidden rounded-ui border border-border bg-background">
+      <div class="border-b border-border px-5 py-4">
+        <h3 class="text-sm font-semibold text-foreground">Importaciones de origen</h3>
+      </div>
+      <ul class="divide-y divide-border">
+        @for (b of detail.batches; track b.id) {
+          <li class="flex flex-wrap items-center justify-between gap-2 px-5 py-3 text-sm">
+            <span class="text-foreground">Lote {{ b.id }} · {{ date(b.created_at) }}</span>
+            <span class="text-muted-foreground"
+              >{{ b.user_name }} ({{ b.user_email }}) · {{ b.count }} hallazgos</span
+            >
+          </li>
+        }
+      </ul>
+    </div>
+
+    <div class="overflow-hidden rounded-ui border border-border bg-background">
+      <div class="border-b border-border px-5 py-4">
+        <h3 class="text-sm font-semibold text-foreground">Hallazgos archivados</h3>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-muted text-xs uppercase tracking-wide text-muted-foreground">
+            <tr>
+              <th class="px-5 py-3 font-medium">#</th>
+              <th class="px-5 py-3 font-medium">ID / CVE</th>
+              <th class="px-5 py-3 font-medium">Activo y zona</th>
+              <th class="px-5 py-3 font-medium">CVSS</th>
+              <th class="px-5 py-3 font-medium">IRC</th>
+              <th class="px-5 py-3 font-medium">Prioridad</th>
+              <th class="px-5 py-3 font-medium">Estado</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-border">
+            @for (f of pagedFindings; track f.id; let i = $index) {
+              <tr>
+                <td class="px-5 py-3 text-muted-foreground">{{ findingsStart + i }}</td>
+                <td class="px-5 py-3">
+                  <span class="block font-medium text-foreground">{{ f.reference }}</span>
+                  <span class="block text-xs text-muted-foreground">{{
+                    f.cve || 'No aplica'
+                  }}</span>
+                </td>
+                <td class="px-5 py-3">
+                  <span class="block text-foreground">{{ f.asset }}</span>
+                  <span class="block text-xs text-muted-foreground">{{ f.zone }}</span>
+                </td>
+                <td class="px-5 py-3 text-foreground">{{ f.input.cvss }}</td>
+                <td class="px-5 py-3 text-foreground">
+                  {{ f.calculation.display_score }}
+                  <span class="block text-xs text-muted-foreground">{{
+                    f.calculation.version
+                  }}</span>
+                </td>
+                <td class="px-5 py-3 text-foreground">{{ f.calculation.priority }}</td>
+                <td class="px-5 py-3 capitalize text-foreground">{{ f.status }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <prime-pagination
+        [total]="detail.findings.length"
+        [page]="findingsPage"
+        (pageChange)="findingsPage = $event"
+      />
+    </div>
+  </section>
+}
